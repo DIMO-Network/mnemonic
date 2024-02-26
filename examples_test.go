@@ -74,7 +74,10 @@ func ExampleToHex() {
 func ExampleFromBytes() {
 	// Generate a mnemonic from a byte slice
 	bytes := []byte{'z', 35, 67, 0xff, 0x89, 0, 0xcd, 0xef}
-	words := mnemonic.FromBytes(bytes)
+	words, err := mnemonic.FromBytes(bytes)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println(words)
 	// Output: [kick borrow zoo bamboo art wasp]

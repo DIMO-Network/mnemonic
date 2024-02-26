@@ -43,7 +43,11 @@ func TestFromHex(t *testing.T) {
 func TestFromBytes(t *testing.T) {
 	t.Parallel()
 	bytes := []byte{0, 0, 0x45, 0x67, 0x89, 0xab, 0, 0}
-	words := mnemonic.FromBytes(bytes)
+	words, err := mnemonic.FromBytes(bytes)
+	if err != nil {
+		t.Errorf("Error converting bytes to mnemonic: %v", err)
+		return
+	}
 
 	decodedBytes, err := mnemonic.ToBytes(words)
 	if err != nil {

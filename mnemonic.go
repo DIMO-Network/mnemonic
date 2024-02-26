@@ -73,9 +73,9 @@ func FromHex(data string) ([]string, error) {
 
 // FromBytes converts a byte slice to a list of mnemonic words.
 // The length in bits of the byte slice must be a multiple of 32.
-func FromBytes(data []byte) []string {
-	words, _ := FromBigIntFixed(big.NewInt(0).SetBytes(data), len(data)*bitsPerByte)
-	return words
+func FromBytes(data []byte) ([]string, error) {
+	return FromBigIntFixed(big.NewInt(0).SetBytes(data), len(data)*bitsPerByte)
+
 }
 
 // FromUint32WithObfuscation behaves the same as FromUint, but the provided data is obfuscated first.
