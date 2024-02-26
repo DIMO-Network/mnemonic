@@ -15,15 +15,12 @@ jobs:
         go-version: ["1.18", "1.19", "1.20", "1.21", "1.22"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
       # You can test your matrix by printing the current Go version
-
-      - name: Checkout code
-        uses: actions/checkout@v3
 
       - name: Get dependencies
         run: |
@@ -38,6 +35,6 @@ jobs:
 
       - name: Annotate tests
         if: always()
-        uses: guyarb/golang-test-annotations@v0.6.0
+        uses: guyarb/golang-test-annotations@v0.7.0
         with:
           test-results: test.json
