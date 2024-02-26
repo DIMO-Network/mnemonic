@@ -24,7 +24,7 @@ func TestMain(m *testing.M) {
 
 func TestFromHex(t *testing.T) {
 	t.Parallel()
-	hex := "123456789abcdef"
+	hex := "00000000123456789abcdef0"
 	words, err := mnemonic.FromHex(hex)
 	if err != nil {
 		t.Errorf("Error converting hex to mnemonic: %v", err)
@@ -42,15 +42,18 @@ func TestFromHex(t *testing.T) {
 
 func TestFromBytes(t *testing.T) {
 	t.Parallel()
-	bytes := []byte{0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef}
+	bytes := []byte{0, 0, 0x45, 0x67, 0x89, 0xab, 0, 0}
 	words := mnemonic.FromBytes(bytes)
+
 	decodedBytes, err := mnemonic.ToBytes(words)
 	if err != nil {
 		t.Errorf("Error converting mnemonic to bytes: %v", err)
 		return
 	}
-	if string(bytes) != string(decodedBytes) {
-		t.Errorf("Original bytes: %v, Decoded bytes: %v", bytes, decodedBytes)
+	for i, b := range bytes {
+		if b != decodedBytes[i] {
+			t.Errorf("Original byte: %v, Decoded byte: %v", b, decodedBytes[i])
+		}
 	}
 }
 
@@ -58,7 +61,7 @@ func TestInteger(t *testing.T) {
 	t.Parallel()
 	num := uint64(0x01234567ab)
 	words := mnemonic.FromUint(num)
-	decodedNum, err := mnemonic.ToUInt(words)
+	decodedNum, err := mnemonic.ToUint(words)
 	if err != nil {
 		t.Errorf("Error converting mnemonic to uint: %v", err)
 		return
@@ -83,7 +86,7 @@ func TestUint64Obfuscation(t *testing.T) {
 	t.Parallel()
 	num := uint64(0x01234567ab)
 	words := mnemonic.FromUint64WithObfuscation(num)
-	decodedNum, err := mnemonic.ToUInt(words)
+	decodedNum, err := mnemonic.ToUint(words)
 	if err != nil {
 		t.Errorf("Error converting mnemonic to uint: %v", err)
 		return
@@ -127,7 +130,7 @@ func TestUint32Obfuscation(t *testing.T) {
 	t.Parallel()
 	num := uint32(0x01234567)
 	words := mnemonic.FromUint32WithObfuscation(num)
-	decodedNum, err := mnemonic.ToUInt(words)
+	decodedNum, err := mnemonic.ToUint(words)
 	if err != nil {
 		t.Errorf("Error converting mnemonic to uint: %v", err)
 		return

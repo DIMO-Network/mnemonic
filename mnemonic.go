@@ -6,6 +6,7 @@
 package mnemonic
 
 import (
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math/big"
@@ -61,19 +62,20 @@ func FromUint[T constraints.Unsigned](data T) []string {
 }
 
 // FromHex converts a hex string to a list of mnemonic words.
+// The length in bits of the hex string must be a multiple of 32.
 func FromHex(data string) ([]string, error) {
 	entBin, ok := big.NewInt(0).SetString(data, hexBase)
 	if !ok {
 		return nil, fmt.Errorf("%w: invalid hex %q", ErrInvalidData, data)
 	}
-	// encode any leading 0 in the hex string
-	bitSize := NextNumberDivisibleBy32(len(data) * bitsPerHexChar)
-	return FromBigIntFixed(entBin, bitSize)
+	return FromBigIntFixed(entBin, len(data)*bitsPerHexChar)
 }
 
 // FromBytes converts a byte slice to a list of mnemonic words.
+// The length in bits of the byte slice must be a multiple of 32.
 func FromBytes(data []byte) []string {
-	return FromBigInt(big.NewInt(0).SetBytes(data))
+	words, _ := FromBigIntFixed(big.NewInt(0).SetBytes(data), len(data)*bitsPerByte)
+	return words
 }
 
 // FromUint32WithObfuscation behaves the same as FromUint, but the provided data is obfuscated first.
@@ -102,43 +104,48 @@ func FromInt64WithObfuscation(data int64) []string {
 
 // ToInt converts a list of mnemonic words to an int64.
 func ToInt(words []string) (int64, error) {
-	entBin, err := ToBigInt(words)
+	bigInt, err := ToBigInt(words)
 	if err != nil {
 		return 0, err
 	}
-	return entBin.Int64(), nil
+	return bigInt.Int64(), nil
 }
 
-// ToUInt converts a list of mnemonic words to a uint64.
-func ToUInt(words []string) (uint64, error) {
-	entBin, err := ToBigInt(words)
+// ToUint converts a list of mnemonic words to a uint64.
+func ToUint(words []string) (uint64, error) {
+	bigInt, err := ToBigInt(words)
 	if err != nil {
 		return 0, err
 	}
-	return entBin.Uint64(), nil
+	return bigInt.Uint64(), nil
 }
 
 // ToHex converts a list of mnemonic words to a hex string.
 func ToHex(words []string) (string, error) {
-	entBin, err := ToBigInt(words)
+	bigInt, err := ToBigInt(words)
 	if err != nil {
 		return "", err
 	}
-	return entBin.Text(hexBase), nil
+	originalSize := len(words) * wordMaskSize
+	buf := make([]byte, originalSize/bitsPerByte)
+	bigInt.FillBytes(buf)
+	return hex.EncodeToString(buf), nil
 }
 
 // ToBytes converts a list of mnemonic words to a byte slice.
 func ToBytes(words []string) ([]byte, error) {
-	entBin, err := ToBigInt(words)
+	bigInt, err := ToBigInt(words)
 	if err != nil {
 		return nil, err
 	}
-	return entBin.Bytes(), nil
+	originalSize := len(words) * wordMaskSize
+	buf := make([]byte, originalSize/bitsPerByte)
+	return bigInt.FillBytes(buf), nil
 }
 
-// ToUint32WithDeobfuscation behaves the same as ToUInt, but the result is deobfuscated.
+// ToUint32WithDeobfuscation behaves the same as ToUint, but the result is deobfuscated.
 func ToUint32WithDeobfuscation(words []string) (uint32, error) {
-	decodedData, err := ToUInt(words)
+	decodedData, err := ToUint(words)
 	if err != nil {
 		return 0, err
 	}
@@ -154,9 +161,9 @@ func ToInt32WithDeobfuscation(words []string) (int32, error) {
 	return Hider.Int32Deobfuscate(int32(decodedData)), nil
 }
 
-// ToUint64WithDeobfuscation behaves the same as ToUInt, but the result is deobfuscated.
+// ToUint64WithDeobfuscation behaves the same as ToUint, but the result is deobfuscated.
 func ToUint64WithDeobfuscation(words []string) (uint64, error) {
-	decodedData, err := ToUInt(words)
+	decodedData, err := ToUint(words)
 	if err != nil {
 		return 0, err
 	}
