@@ -26,6 +26,7 @@ go get github.com/KevinJoiner/mnemonic
 ```
 
 ### Example Usage
+All Examples can be found in the [go docs](https://godoc.org/github.com/KevinJoiner/mnemonic) or [examples_test.go](./examples_test.go)
 
 ```go
 package main
