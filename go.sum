@@ -1,0 +1,4 @@
+github.com/c2h5oh/hide v0.0.0-20181204203522-190260264be9 h1:kF98ge9k4ELirm5uP9SmTsfsDRslirYP5PITqRep2zE=
+github.com/c2h5oh/hide v0.0.0-20181204203522-190260264be9/go.mod h1:j2xsyOr5qUf5HCq81nKfeQxWwbWIaiemwsuQ/+MyqIw=
+golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 h1:LfspQV/FYTatPTr/3HzIcmiUFH7PGP+OQ6mgDYo3yuQ=
+golang.org/x/exp v0.0.0-20240222234643-814bf88cf225/go.mod h1:CxmFvTBINI24O/j8iY7H1xHzx2i4OsyguNBmN/uPtqc=
