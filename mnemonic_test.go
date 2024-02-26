@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/KevinJoiner/mnemonic"
+	"github.com/DIMO-Network/mnemonic"
 )
 
 var testVectors = trezorVectors{}

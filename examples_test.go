@@ -3,7 +3,7 @@ package mnemonic_test
 import (
 	"fmt"
 
-	"github.com/KevinJoiner/mnemonic"
+	"github.com/DIMO-Network/mnemonic"
 )
 
 func ExampleFromInt() {

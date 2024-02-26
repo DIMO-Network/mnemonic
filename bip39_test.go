@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/KevinJoiner/mnemonic"
+	"github.com/DIMO-Network/mnemonic"
 )
 
 //go:embed trezorTestVectors.json

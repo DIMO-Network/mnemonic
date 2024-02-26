@@ -1,4 +1,4 @@
-module github.com/KevinJoiner/mnemonic
+module github.com/DIMO-Network/mnemonic
 
 go 1.18
 
