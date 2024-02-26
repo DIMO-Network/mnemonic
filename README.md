@@ -13,7 +13,7 @@ The Mnemonic package provides a flexible and customizable way to encode data int
 
 - **Arbitrary Entropy Sizes:** This package allows users to work with arbitrary entropy sizes, providing flexibility in encoding different types of data.
 
-- **Number Obfuscation:** For enhanced usability with IDs, the package offers optional number obfuscation. This feature uses Modular Multiplicative Inverse to convert the provided number into a seemingly random number before generating the mnemonic word list using https://github.com/KevinJoiner/mnemonic
+- **Number Obfuscation:** For enhanced usability with IDs, the package offers optional number obfuscation. This feature uses Modular Multiplicative Inverse to convert the provided number into a seemingly random number before generating the mnemonic word list using https://github.com/c2h5oh/hide
 
 ## Getting Started
 
